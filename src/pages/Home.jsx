@@ -1,4 +1,6 @@
 import "../CSS/Home.css";
+import { CgCodeSlash } from "react-icons/cg";
+import { TbGrid3X3 } from "react-icons/tb";
 export default function Home() {
   return (
     <div className="outer-wrapper">
@@ -16,7 +18,7 @@ export default function Home() {
       <div className="main-wrapper">
         <main>
           {post.map((p) => (
-            <article key={p.id}>
+            <article className="home-post-container" key={p.id}>
               <h3>{p.title}</h3>
               <p className="description">{p.description}</p>
               <p className="date">{p.date}</p>
@@ -28,8 +30,22 @@ export default function Home() {
         {" "}
         <footer>
           <p>
-            Made by <a className="portfolio-footer-link" href="https://ziyinmao.vercel.app/">Ziyin Mao</a>
+            Made by{" "}
+            <a
+              className="portfolio-footer-link"
+              href="https://ziyinmao.vercel.app/"
+            >
+              Ziyin Mao
+            </a>
           </p>
+          <div className="btn-container">
+            <button className="utility-btn">
+              <CgCodeSlash />
+            </button>
+            <button className="utility-btn">
+              <TbGrid3X3 />
+            </button>
+          </div>
         </footer>
       </div>
     </div>
