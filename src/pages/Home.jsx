@@ -9,7 +9,7 @@ export default function Home() {
           <a href="https://ziyinmao.vercel.app/">Ziyin Mao</a>
           <h1>Journal</h1>
           <button className="utility-btn" id="header-btn">
-            <Link to="CreatePost">+</Link>
+            <Link to="create-post">+</Link>
           </button>
           <p>
             I've never been good at writing, but this mind full of thoughts

@@ -1,0 +1,74 @@
+.create-post-wrapper {
+  height: auto;
+  width: 100vw;
+  /* flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.cpw-inner-wrapper {
+  height: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding: 2rem;
+
+  /* flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & form {
+    height: auto;
+    position: relative;
+    flex: 50%;
+    width: 100%;
+
+    & textarea {
+      border: rgba(255, 255, 255, 0.11) 1px solid;
+      background-color: var(--gray-600);
+      border-radius: 0.6em;
+      min-height: 100vh;
+      width: 90%;
+      color: rgba(255, 255, 255, 0.662);
+      padding: 1em;
+    }
+
+    & button {
+      width: 95%;
+      height: 3em;
+      border: none;
+      border-radius: 0.6em;
+      background-color: white;
+      cursor: pointer;
+      transition: background-color 200ms ease-out;
+      position: absolute;
+      bottom: -5em;
+      left: 0em;
+    }
+  }
+}
+
+.markdown-container {
+  min-height: 100vh;
+  flex: 50%;
+  color: white;
+  padding: 1em;
+  border-radius: 0.6em;
+  & img {
+    border-radius: 0.6em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .create-post-wrapper {
+    height: auto;
+    width: 100vw;
+    /* flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
