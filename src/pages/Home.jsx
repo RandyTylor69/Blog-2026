@@ -1,6 +1,6 @@
 import "../CSS/Home.css";
 import { CgCodeSlash } from "react-icons/cg";
-import { TbGrid3X3 } from "react-icons/tb";
+import { Link } from "react-router";
 export default function Home() {
   return (
     <div className="outer-wrapper">
@@ -8,6 +8,9 @@ export default function Home() {
         <header>
           <a href="https://ziyinmao.vercel.app/">Ziyin Mao</a>
           <h1>Journal</h1>
+          <button className="utility-btn" id="header-btn">
+            <Link to="CreatePost">+</Link>
+          </button>
           <p>
             I've never been good at writing, but this mind full of thoughts
             needs an outlet. Things I learned about web development or
@@ -39,12 +42,9 @@ export default function Home() {
             </a>
           </p>
           <div className="btn-container">
-            <button className="utility-btn">
+            <Link to="login" className="utility-btn">
               <CgCodeSlash />
-            </button>
-            <button className="utility-btn">
-              <TbGrid3X3 />
-            </button>
+            </Link>
           </div>
         </footer>
       </div>
