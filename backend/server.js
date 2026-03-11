@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cryptoRandomString from "crypto-random-string";
 import { Pool } from "pg";
 
 const app = express();
@@ -15,21 +16,53 @@ const db = new Pool({
 app.post(`/api/create`, async (req, res) => {
   try {
     // 1. get FE data
-    const { content, description, title } = req.body;
+    const { content, description, title, post_id } = req.body;
+
     const newPost = await db.query(
-      "INSERT INTO posts (title, content, description) VALUES ($1, $2, $3) RETURNING *",
-      [title, content, description],
+      "INSERT INTO posts (title, content, description, post_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [title, content, description, post_id],
     );
-    res.status(201).json(newPost);
+    res.status(201).json("Post Creation Successful");
   } catch (e) {
     console.error(e.message);
     res.status(500).json(e.message);
   }
 });
 
-app.get("/api/test", async (req, res) => {
-  console.log("im running alright");
-  res.status(200).json(process.env.DB_PASSWORD);
+app.get(`/api/posts`, async (req, res) => {
+  try {
+    const allPosts = await db.query("SELECT * FROM posts");
+    const result = allPosts.rows;
+    // trim the dates to be YYYY-MM-DD
+    for (let post of result) {
+      post.created_at = post.created_at.toISOString().slice(0, 10);
+      post.updated_at = post.updated_at.toISOString().slice(0, 10);
+    }
+    res.status(201).json(result);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json(e.message);
+  }
+});
+
+app.get(`/api/posts/:post_id`, async (req, res) => {
+  try {
+    const { post_id } = req.params;
+    const result = await db.query("SELECT * FROM posts WHERE post_id = $1", [
+      post_id,
+    ]);
+    const post = result.rows[0]
+    post.created_at = post.created_at.toISOString().slice(0, 10);
+    post.updated_at = post.updated_at.toISOString().slice(0, 10);
+    res.status(201).json(post);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json(e.message);
+  }
+});
+
+app.get(`/test`, async (req, res) => {
+  res.status(200).json(hash);
 });
 
 app.listen(5000, () => console.log("App running healthy on 5000"));

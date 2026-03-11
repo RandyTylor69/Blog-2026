@@ -1,26 +1,37 @@
 import { useState, useEffect } from "react";
-import Markdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router";
 import "../CSS/CreatePost.css";
+
 import "github-markdown-css/github-markdown.css";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+import cryptoRandomString from "crypto-random-string";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const post_id = cryptoRandomString({ length: 16 });
     try {
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/create`,
         {
           method: "POST",
-          body: JSON.stringify({ content, description, title }),
+          body: JSON.stringify({ content, description, title, post_id }),
           headers: { "Content-Type": "application/json" },
         },
       );
       const data = await res.json();
-      console.log(data);
+      if (data == "Post Creation Successful") {
+        alert(data);
+        navigate("/");
+      }
     } catch (e) {
       console.error(e.message);
     }
@@ -66,7 +77,29 @@ export default function CreatePost() {
           <button type="submit">Submit</button>
         </form>
         <div className="markdown-body markdown-container ">
-          <Markdown>{content}</Markdown>
+          <ReactMarkdown
+            components={{
+              code({ className, children, ...rest }) {
+                const match = /language-(\w+)/.exec(className || "");
+                return match ? (
+                  <SyntaxHighlighter
+                    PreTag="div"
+                    language={match[1]}
+                    style={nord}
+                    {...rest}
+                  >
+                    {children}
+                  </SyntaxHighlighter>
+                ) : (
+                  <code {...rest} className={className}>
+                    {children}
+                  </code>
+                );
+              },
+            }}
+          >
+            {content}
+          </ReactMarkdown>
         </div>
       </div>
     </div>

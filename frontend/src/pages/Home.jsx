@@ -1,7 +1,27 @@
 import "../CSS/Home.css";
 import { CgCodeSlash } from "react-icons/cg";
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
+
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    // auto scroll to top upon each refresh
+    window.scrollTo(0, 0);
+
+    // fetch all posts from server
+    const fetchAllPosts = async () => {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/posts`);
+      if (!res.ok) {
+        console.error("response error from server");
+      }
+      const data = await res.json();
+      setPosts(data.reverse());
+    };
+
+    fetchAllPosts();
+  }, []);
   return (
     <div className="outer-wrapper">
       <div className="header-wrapper">
@@ -20,11 +40,11 @@ export default function Home() {
       </div>
       <div className="main-wrapper">
         <main>
-          {post.map((p) => (
-            <article className="home-post-container" key={p.id}>
-              <h3>{p.title}</h3>
+          {posts.map((p) => (
+            <article className="home-post-container" key={p.post_id}>
+              <Link to={p.post_id}>{p.title}</Link>
               <p className="description">{p.description}</p>
-              <p className="date">{p.date}</p>
+              <p className="date">{p.created_at}</p>
             </article>
           ))}
         </main>
