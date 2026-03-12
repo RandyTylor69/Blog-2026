@@ -35,3 +35,16 @@
     line-height: 1.8;
   }
 }
+
+#edit-btn {
+  width: auto;
+  padding: 4px;
+  text-decoration: none;
+}
+
+#del-btn {
+  width: auto;
+  padding: 4px;
+  height: 2.6rem;
+  text-decoration: none;
+}

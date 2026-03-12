@@ -79,7 +79,33 @@ app.post(`/api/login`, async (req, res) => {
     } else {
       res.status(201).json("wrong password or email");
     }
+  } catch (e) {
+    console.error(e.message);
+  }
+});
 
+// edit a post
+app.post(`/api/edit`, async (req, res) => {
+  try {
+    const { title, description, content, post_id } = req.body;
+    const result = await db.query(
+      "UPDATE posts SET title = $1, description = $2, content = $3 WHERE post_id = $4",
+      [title, description, content, post_id],
+    );
+    res.status(201).json("successful edit");
+  } catch (e) {
+    console.error(e.message);
+  }
+});
+
+// delete a post
+app.delete(`/api/delete/:post_id`, async (req, res) => {
+  try {
+    const { post_id } = req.params;
+    const result = await db.query("DELETE FROM posts WHERE post_id = $1", [
+      post_id,
+    ]);
+    res.status(201).json(`todo id ${post_id} deleted`);
   } catch (e) {
     console.error(e.message);
   }

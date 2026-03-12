@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import "../CSS/Post.css";
-import ReactMarkdown from "react-markdown"
+import ReactMarkdown from "react-markdown";
 import "github-markdown-css/github-markdown.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -10,6 +10,19 @@ export default function Post() {
   const { postid: post_id } = useParams();
   const [postData, setPostData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // delete function
+  const deletePost = async () => {
+    alert("you sure buddy?");
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/delete/${post_id}`,
+      { method: "DELETE" },
+    );
+    const data = await res.json();
+    navigate("/");
+  };
+
   useEffect(() => {
     const fetchPostData = async () => {
       setLoading(true);
@@ -32,6 +45,25 @@ export default function Post() {
         <main className="post-inner-wrapper">
           <h1>{postData.title}</h1>
           <p className="date">{postData.created_at}</p>
+          {localStorage.user && (
+            <>
+              {" "}
+              <Link
+                className="utility-btn"
+                id="edit-btn"
+                to={`/edit-post/${postData.post_id}`}
+              >
+                Edit Post
+              </Link>
+              <button
+                className="utility-btn"
+                id="del-btn"
+                onClick={() => deletePost()}
+              >
+                Delete Post (no way to undelete)
+              </button>
+            </>
+          )}
           <div className="markdown-body ">
             <ReactMarkdown
               components={{
