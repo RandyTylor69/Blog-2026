@@ -13,6 +13,7 @@ const db = new Pool({
   connectionString: `postgresql://postgres.yfoqhbcmwivyuntwzifo:${process.env.DB_PASSWORD}@aws-1-ca-central-1.pooler.supabase.com:5432/postgres`,
 });
 
+// create post
 app.post(`/api/create`, async (req, res) => {
   try {
     // 1. get FE data
@@ -29,6 +30,7 @@ app.post(`/api/create`, async (req, res) => {
   }
 });
 
+// get all posts
 app.get(`/api/posts`, async (req, res) => {
   try {
     const allPosts = await db.query("SELECT * FROM posts");
@@ -45,19 +47,41 @@ app.get(`/api/posts`, async (req, res) => {
   }
 });
 
+// get single post
 app.get(`/api/posts/:post_id`, async (req, res) => {
   try {
     const { post_id } = req.params;
     const result = await db.query("SELECT * FROM posts WHERE post_id = $1", [
       post_id,
     ]);
-    const post = result.rows[0]
+    const post = result.rows[0];
     post.created_at = post.created_at.toISOString().slice(0, 10);
     post.updated_at = post.updated_at.toISOString().slice(0, 10);
     res.status(201).json(post);
   } catch (e) {
     console.error(e.message);
     res.status(500).json(e.message);
+  }
+});
+
+// login
+app.post(`/api/login`, async (req, res) => {
+  try {
+    const { password, email } = req.body;
+    // compare request with db content
+    const result = await db.query(
+      "SELECT * FROM users WHERE password = $1 AND email = $2",
+      [password, email],
+    );
+    // conditional return
+    if (result.rows[0]) {
+      res.status(201).json(result.rows[0].email);
+    } else {
+      res.status(201).json("wrong password or email");
+    }
+
+  } catch (e) {
+    console.error(e.message);
   }
 });
 

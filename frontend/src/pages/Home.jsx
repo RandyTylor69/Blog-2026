@@ -1,9 +1,11 @@
 import "../CSS/Home.css";
 import { CgCodeSlash } from "react-icons/cg";
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../App";
 
 export default function Home() {
+  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -28,9 +30,12 @@ export default function Home() {
         <header>
           <a href="https://ziyinmao.vercel.app/">Ziyin Mao</a>
           <h1>Journal</h1>
-          <Link className="utility-btn" id="header-btn" to="create-post">
-            +
-          </Link>
+          {localStorage.user && (
+            <Link className="utility-btn" id="header-btn" to="create-post">
+              +
+            </Link>
+          )}
+
           <p>
             I've never been good at writing, but this mind full of thoughts
             needs an outlet. Things I learned about web development or
