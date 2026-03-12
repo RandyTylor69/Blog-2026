@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import cryptoRandomString from "crypto-random-string";
 import { Pool } from "pg";
 
 const app = express();
@@ -10,7 +9,7 @@ app.use(cors());
 dotenv.config();
 
 const db = new Pool({
-  connectionString: `postgresql://postgres.yfoqhbcmwivyuntwzifo:${process.env.DB_PASSWORD}@aws-1-ca-central-1.pooler.supabase.com:5432/postgres`,
+  connectionString: process.env.CONNECTION_STRING,
 });
 
 // create post
