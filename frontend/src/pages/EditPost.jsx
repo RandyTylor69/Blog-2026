@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams } from "react-router";
 import "../CSS/CreatePost.css";
+import rehypeSlug from "rehype-slug";
 
 import "github-markdown-css/github-markdown.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
-
 
 export default function EditPost() {
   const [content, setContent] = useState("");
@@ -93,6 +93,7 @@ export default function EditPost() {
         </form>
         <div className="markdown-body markdown-container ">
           <ReactMarkdown
+            rehypePlugins={[rehypeSlug]}
             components={{
               code({ className, children, ...rest }) {
                 const match = /language-(\w+)/.exec(className || "");

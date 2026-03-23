@@ -3,6 +3,7 @@ import { CgCodeSlash } from "react-icons/cg";
 import { Link } from "react-router";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../App";
+import { GoArrowUpRight } from "react-icons/go";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -28,7 +29,6 @@ export default function Home() {
     <div className="outer-wrapper">
       <div className="header-wrapper">
         <header>
-          <a href="https://ziyinmao.vercel.app/">Ziyin Mao</a>
           <h1>Journal</h1>
           {localStorage.user && (
             <Link className="utility-btn" id="header-btn" to="create-post">
@@ -38,8 +38,12 @@ export default function Home() {
 
           <p>
             I've never been good at writing, but this mind full of thoughts
-            needs an outlet. Things I learned about web development or
-            full-stack engineering are kept here, safe and sound.
+            needs an outlet. I study software, typography, and motion
+            design. Find me at{" "}
+            <a target="_blank" href="https://ziyinmao.vercel.app">
+              Ziyin
+            </a>{" "}
+            <GoArrowUpRight />
           </p>
         </header>
       </div>

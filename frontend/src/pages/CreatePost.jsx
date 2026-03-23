@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router";
 import "../CSS/CreatePost.css";
+import rehypeSlug from "rehype-slug";
 
 import "github-markdown-css/github-markdown.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -78,6 +79,7 @@ export default function CreatePost() {
         </form>
         <div className="markdown-body markdown-container ">
           <ReactMarkdown
+            rehypePlugins={[rehypeSlug]}
             components={{
               code({ className, children, ...rest }) {
                 const match = /language-(\w+)/.exec(className || "");

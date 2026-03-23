@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import "github-markdown-css/github-markdown.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nord } from "react-syntax-highlighter/dist/esm/styles/prism";
+import rehypeSlug from "rehype-slug";
 
 export default function Post() {
   const { postid: post_id } = useParams();
@@ -66,6 +67,7 @@ export default function Post() {
           )}
           <div className="markdown-body ">
             <ReactMarkdown
+              rehypePlugins={[rehypeSlug]}
               components={{
                 code({ className, children, ...rest }) {
                   const match = /language-(\w+)/.exec(className || "");
