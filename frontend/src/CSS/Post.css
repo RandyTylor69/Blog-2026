@@ -34,6 +34,14 @@
   & p {
     line-height: 1.8;
   }
+
+  & a {
+    color: white;
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-color: var(--gray-400);
+  }
 }
 
 #edit-btn {

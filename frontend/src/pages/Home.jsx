@@ -6,25 +6,32 @@ import { AuthContext } from "../App";
 import { GoArrowUpRight } from "react-icons/go";
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // auto scroll to top upon each refresh
     window.scrollTo(0, 0);
 
     // fetch all posts from server
     const fetchAllPosts = async () => {
+      setLoading(true);
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/posts`);
       if (!res.ok) {
         console.error("response error from server");
+        setLoading(false);
+        alert("response error from server, check the console");
       }
       const data = await res.json();
       setPosts(data.reverse());
+      setLoading(false);
     };
 
-    fetchAllPosts();
+    setTimeout(() => {
+      fetchAllPosts();
+    }, 3000);
   }, []);
+
   return (
     <div className="outer-wrapper">
       <div className="header-wrapper">
@@ -38,8 +45,8 @@ export default function Home() {
 
           <p>
             I've never been good at writing, but this mind full of thoughts
-            needs an outlet. I study software, typography, and motion
-            design. Find me at{" "}
+            needs an outlet. I study software, typography, and motion design.
+            Find me at{" "}
             <a target="_blank" href="https://ziyinmao.vercel.app">
               Ziyin
             </a>{" "}
@@ -49,13 +56,17 @@ export default function Home() {
       </div>
       <div className="main-wrapper">
         <main>
-          {posts.map((p) => (
-            <article className="home-post-container" key={p.post_id}>
-              <Link to={p.post_id}>{p.title}</Link>
-              <p className="description">{p.description}</p>
-              <p className="date">{p.created_at}</p>
-            </article>
-          ))}
+          {loading ? (
+            <p className="loading-text">Loading...</p>
+          ) : (
+            posts.map((p) => (
+              <article className="home-post-container" key={p.post_id}>
+                <Link to={p.post_id}>{p.title}</Link>
+                <p className="description">{p.description}</p>
+                <p className="date">{p.created_at}</p>
+              </article>
+            ))
+          )}
         </main>
       </div>
       <div className="footer-wrapper">
