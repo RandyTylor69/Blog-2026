@@ -110,8 +110,4 @@ app.delete(`/api/delete/:post_id`, async (req, res) => {
   }
 });
 
-app.get(`/test`, async (req, res) => {
-  res.status(200).json(hash);
-});
-
 app.listen(5000, () => console.log("App running healthy on 5000"));

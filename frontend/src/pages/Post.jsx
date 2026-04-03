@@ -46,25 +46,6 @@ export default function Post() {
         <main className="post-inner-wrapper">
           <h1>{postData.title}</h1>
           <p className="date">{postData.created_at}</p>
-          {localStorage.user && (
-            <>
-              {" "}
-              <Link
-                className="utility-btn"
-                id="edit-btn"
-                to={`/edit-post/${postData.post_id}`}
-              >
-                Edit Post
-              </Link>
-              <button
-                className="utility-btn"
-                id="del-btn"
-                onClick={() => deletePost()}
-              >
-                Delete Post (no way to undelete)
-              </button>
-            </>
-          )}
           <div className="markdown-body ">
             <ReactMarkdown
               rehypePlugins={[rehypeSlug]}
@@ -91,6 +72,26 @@ export default function Post() {
               {postData.content}
             </ReactMarkdown>
           </div>
+
+          {localStorage.user && (
+            <div className="author-only-edit">
+              {" "}
+              <Link
+                className="utility-btn"
+                id="edit-btn"
+                to={`/edit-post/${postData.post_id}`}
+              >
+                Edit Post
+              </Link>
+              <button
+                className="utility-btn"
+                id="del-btn"
+                onClick={() => deletePost()}
+              >
+                Delete Post (no way to undelete)
+              </button>
+            </div>
+          )}
         </main>
       )}
     </div>

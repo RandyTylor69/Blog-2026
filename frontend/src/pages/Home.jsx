@@ -2,7 +2,6 @@ import "../CSS/Home.css";
 import { CgCodeSlash } from "react-icons/cg";
 import { Link } from "react-router";
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../App";
 import { GoArrowUpRight } from "react-icons/go";
 
 export default function Home() {
@@ -61,7 +60,10 @@ export default function Home() {
           ) : (
             posts.map((p) => (
               <article className="home-post-container" key={p.post_id}>
-                <Link to={p.post_id}>{p.title}</Link>
+                <div className="link-to-post">
+                  <Link to={p.post_id}>{p.title}</Link>
+                </div>
+
                 <p className="description">{p.description}</p>
                 <p className="date">{p.created_at}</p>
               </article>
